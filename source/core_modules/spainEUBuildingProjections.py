@@ -1,8 +1,14 @@
-# * ureg.pct* ureg.pct setup
+#%% setup
 import numpy as np
 import matplotlib.pyplot as plt
+import os
 
-# * ureg.pct* ureg.pct Conceptual projection framework
+os.chdir('C:/dev/residential-energy-efficiency-stats')
+print(os.getcwd())
+if not os.path.exists('figures'):
+	os.makedirs('figures')
+
+# %% Conceptual projection framework
 import pandas as pd
 
 from sklearn.linear_model import LinearRegression
@@ -143,6 +149,164 @@ class SpainEUBuildingProjections:
 		plt.tight_layout()
 		return plt
 
+	def plot_nextgenerationeu_impact(self, historical_data):
+		"""
+		Analyze and visualize the impact of NextGenerationEU funds on renovation trends,
+		showing changepoint between 2016-2020 and 2021-2025 periods for both shallow
+		and deep renovations.
+
+		Parameters:
+		-----------
+		historical_data : dict
+			Dictionary containing historical data with keys:
+			- 'year': years from 2016-2025
+			- 'shallow_renovation_rate': Percentage of shallow renovations by year
+			- 'deep_renovation_rate': Percentage of deep renovations by year
+
+		Returns:
+		--------
+		matplotlib.pyplot: Plot object
+		"""
+		# Set up figure
+		plt.figure(figsize=(14, 10))
+
+		# Extract data
+		years = np.array(historical_data['year'])
+		shallow_rates = np.array(historical_data['shallow_renovation_rate'])
+		deep_rates = np.array(historical_data['deep_renovation_rate'])
+
+		# Define periods
+		pre_ngeu_mask = (years >= 2016) & (years <= 2020)
+		post_ngeu_mask = (years >= 2021) & (years <= 2025)
+
+		pre_ngeu_years = years[pre_ngeu_mask]
+		post_ngeu_years = years[post_ngeu_mask]
+
+		# Reshape arrays for sklearn
+		X_pre = pre_ngeu_years.reshape(-1, 1)
+		X_post = post_ngeu_years.reshape(-1, 1)
+
+		# Create models for shallow renovations
+		shallow_pre_ngeu = shallow_rates[pre_ngeu_mask]
+		shallow_post_ngeu = shallow_rates[post_ngeu_mask]
+
+		shallow_model_pre = LinearRegression()
+		shallow_model_pre.fit(X_pre, shallow_pre_ngeu)
+		shallow_r2_pre = r2_score(shallow_pre_ngeu, shallow_model_pre.predict(X_pre))
+
+		shallow_model_post = LinearRegression()
+		shallow_model_post.fit(X_post, shallow_post_ngeu)
+		shallow_r2_post = r2_score(shallow_post_ngeu, shallow_model_post.predict(X_post))
+
+		# Create models for deep renovations
+		deep_pre_ngeu = deep_rates[pre_ngeu_mask]
+		deep_post_ngeu = deep_rates[post_ngeu_mask]
+
+		deep_model_pre = LinearRegression()
+		deep_model_pre.fit(X_pre, deep_pre_ngeu)
+		deep_r2_pre = r2_score(deep_pre_ngeu, deep_model_pre.predict(X_pre))
+
+		deep_model_post = LinearRegression()
+		deep_model_post.fit(X_post, deep_post_ngeu)
+		deep_r2_post = r2_score(deep_post_ngeu, deep_model_post.predict(X_post))
+
+		# Calculate slopes (annual percentage point change)
+		shallow_slope_pre = shallow_model_pre.coef_[0]
+		shallow_slope_post = shallow_model_post.coef_[0]
+		deep_slope_pre = deep_model_pre.coef_[0]
+		deep_slope_post = deep_model_post.coef_[0]
+
+		# Calculate percentage increase in slopes
+		shallow_slope_increase = ((shallow_slope_post - shallow_slope_pre) / abs(shallow_slope_pre)) * 100
+		deep_slope_increase = ((deep_slope_post - deep_slope_pre) / abs(deep_slope_pre)) * 100
+
+		# Create continuous prediction lines for visualization
+		X_pre_cont = np.linspace(2016, 2020, 100).reshape(-1, 1)
+		X_post_cont = np.linspace(2021, 2025, 100).reshape(-1, 1)
+
+		shallow_pred_pre = shallow_model_pre.predict(X_pre_cont)
+		shallow_pred_post = shallow_model_post.predict(X_post_cont)
+		deep_pred_pre = deep_model_pre.predict(X_pre_cont)
+		deep_pred_post = deep_model_post.predict(X_post_cont)
+
+		# Plotting
+		plt.subplot(2, 1, 1)
+		# Plot data points
+		plt.scatter(years[pre_ngeu_mask], shallow_rates[pre_ngeu_mask], color='blue', s=60, alpha=0.7,
+				   label='Shallow Renovations (Pre-NextGenEU)')
+		plt.scatter(years[post_ngeu_mask], shallow_rates[post_ngeu_mask], color='blue', s=80, marker='D', alpha=0.9,
+				   label='Shallow Renovations (Post-NextGenEU)')
+
+		# Plot regression lines
+		plt.plot(X_pre_cont, shallow_pred_pre, 'b--', linewidth=2,
+				label=f'Pre-NextGenEU Trend (R²={shallow_r2_pre:.2f}, Slope={shallow_slope_pre:.2f}%/yr)')
+		plt.plot(X_post_cont, shallow_pred_post, 'b-', linewidth=3,
+				label=f'Post-NextGenEU Trend (R²={shallow_r2_post:.2f}, Slope={shallow_slope_post:.2f}%/yr)')
+
+		# Add vertical line for NextGenEU start
+		plt.axvline(x=2020.5, color='green', linestyle='-', linewidth=2, alpha=0.7)
+		plt.text(2020.6, max(shallow_rates)*0.8, 'NextGenerationEU\nImplementation',
+				fontsize=10, color='green', fontweight='bold')
+
+		plt.title('Impact of NextGenerationEU on Shallow Renovation Rates in Spain', fontsize=14)
+		plt.xlabel('Year', fontsize=12)
+		plt.ylabel('Shallow Renovation Rate (%)', fontsize=12)
+		plt.grid(True, linestyle='--', alpha=0.6)
+		plt.legend(loc='upper left', fontsize=10)
+
+		# Add annotation about slope change
+		plt.annotate(f"Slope increased by {shallow_slope_increase:.1f}%",
+				   xy=(2023, shallow_pred_post[-1]),
+				   xytext=(2022, shallow_pred_post[-1] - 0.5),
+				   arrowprops=dict(facecolor='black', shrink=0.05, width=1.5, headwidth=8),
+				   fontsize=10)
+
+		# Second subplot for deep renovations
+		plt.subplot(2, 1, 2)
+		# Plot data points
+		plt.scatter(years[pre_ngeu_mask], deep_rates[pre_ngeu_mask], color='red', s=60, alpha=0.7,
+				   label='Deep Renovations (Pre-NextGenEU)')
+		plt.scatter(years[post_ngeu_mask], deep_rates[post_ngeu_mask], color='red', s=80, marker='D', alpha=0.9,
+				   label='Deep Renovations (Post-NextGenEU)')
+
+		# Plot regression lines
+		plt.plot(X_pre_cont, deep_pred_pre, 'r--', linewidth=2,
+				label=f'Pre-NextGenEU Trend (R²={deep_r2_pre:.2f}, Slope={deep_slope_pre:.2f}%/yr)')
+		plt.plot(X_post_cont, deep_pred_post, 'r-', linewidth=3,
+				label=f'Post-NextGenEU Trend (R²={deep_r2_post:.2f}, Slope={deep_slope_post:.2f}%/yr)')
+
+		# Add vertical line for NextGenEU start
+		plt.axvline(x=2020.5, color='green', linestyle='-', linewidth=2, alpha=0.7)
+		plt.text(2020.6, max(deep_rates)*0.8, 'NextGenerationEU\nImplementation',
+				fontsize=10, color='green', fontweight='bold')
+
+		plt.title('Impact of NextGenerationEU on Deep Renovation Rates in Spain', fontsize=14)
+		plt.xlabel('Year', fontsize=12)
+		plt.ylabel('Deep Renovation Rate (%)', fontsize=12)
+		plt.grid(True, linestyle='--', alpha=0.6)
+		plt.legend(loc='upper left', fontsize=10)
+
+		# Add annotation about slope change
+		plt.annotate(f"Slope increased by {deep_slope_increase:.1f}%",
+				   xy=(2023, deep_pred_post[-1]),
+				   xytext=(2022, deep_pred_post[-1] - 0.3),
+				   arrowprops=dict(facecolor='black', shrink=0.05, width=1.5, headwidth=8),
+				   fontsize=10)
+
+		# Add explanatory text box
+		textstr = '\n'.join((
+			'NextGenerationEU Impact:',
+			f'• Shallow renovations: {shallow_slope_increase:.1f}% slope increase',
+			f'• Deep renovations: {deep_slope_increase:.1f}% slope increase',
+			f'• Deep/Shallow ratio before: {deep_pre_ngeu.mean()/shallow_pre_ngeu.mean():.2f}',
+			f'• Deep/Shallow ratio after: {deep_post_ngeu.mean()/shallow_post_ngeu.mean():.2f}'
+		))
+		props = dict(boxstyle='round', facecolor='wheat', alpha=0.5)
+		plt.text(2016.2, max(deep_rates)*0.5, textstr, fontsize=10, bbox=props)
+
+		plt.tight_layout()
+		return plt
+
 if __name__ == "__main__":
 	# Test the projection class
 	sbp = SpainEUBuildingProjections()
@@ -156,5 +320,17 @@ if __name__ == "__main__":
 
 	# Generate and show the plot
 	plot = sbp.plot_trajectory_comparison(historical_data)
-	# plot.savefig('spain_renovation_projections.png', dpi=300)
-	# plot.show()
+	plot.savefig('figures/spain_renovation_projections.png', dpi=300)
+	plot.show()
+
+	# Sample data for NextGenerationEU impact analysis
+	ngeu_impact_data = {
+		'year': [2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025],
+		'shallow_renovation_rate': [0.6, 0.65, 0.7, 0.72, 0.75, 0.85, 1.0, 1.2, 1.35, 1.5],  # Percentage
+		'deep_renovation_rate': [0.1, 0.12, 0.15, 0.17, 0.2, 0.35, 0.5, 0.65, 0.8, 0.95]     # Percentage
+	}
+
+	# Generate and show the NextGenerationEU impact analysis
+	ngeu_plot = sbp.plot_nextgenerationeu_impact(ngeu_impact_data)
+	ngeu_plot.savefig('figures/spain_nextgeneu_impact.png', dpi=300)
+	ngeu_plot.show()

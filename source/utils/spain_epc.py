@@ -14,6 +14,12 @@ import matplotlib.pyplot as plt
 # 2023, I
 # 'll create stacked bar plots showing the distribution of building energy ratings across Spain for the last 5 years (2019-2023).
 
+
+# %% figures
+import os
+# Ensure figures directory exists
+if not os.path.exists('images'):
+	os.makedirs('images')
 # %%
 import numpy as np
 import matplotlib.pyplot as plt
@@ -58,7 +64,7 @@ ratings = ['A', 'B', 'C', 'D', 'E', 'F', 'G']
 colors = ['#4CAF50', '#8BC34A', '#CDDC39', '#FFEB3B', '#FFC107', '#FF9800', '#F44336']
 
 # Create the figure with 3 subplots
-fig, axes = plt.subplots(3, 1, figsize=(12, 15))
+fig, axes = plt.subplots(1, 1, figsize=(12, 6))
 
 
 # Function to create stacked bar chart
@@ -85,13 +91,13 @@ def create_stacked_bar(ax, data, title):
 
 
 # Plot 1: Overall building stock
-create_stacked_bar(axes[0], overall_data, 'Spain Overall Building Stock EPC Ratings (2019-2023)')
+create_stacked_bar(axes, overall_data, 'Spain Overall Building Stock EPC Ratings (2019-2023)')
 
-# Plot 2: Single-family residential
-create_stacked_bar(axes[1], single_family_data, 'Spain Single-Family Residential EPC Ratings (2019-2023)')
-
-# Plot 3: Multi-family residential
-create_stacked_bar(axes[2], multi_family_data, 'Spain Multi-Family Residential EPC Ratings (2019-2023)')
+# # Plot 2: Single-family residential
+# create_stacked_bar(axes[1], single_family_data, 'Spain Single-Family Residential EPC Ratings (2019-2023)')
+#
+# # Plot 3: Multi-family residential
+# create_stacked_bar(axes[2], multi_family_data, 'Spain Multi-Family Residential EPC Ratings (2019-2023)')
 
 # Add a note about data sources
 fig.text(0.5, 0.01,
