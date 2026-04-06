@@ -1,0 +1,51 @@
+{
+  "viviendas": {
+    "potencia_basica_W": 5750,
+    "potencia_elevada_W": 9200,
+    "umbrales_elevada": {
+      "superficie_m2": 160,
+      "puntos_luz": 30
+    },
+    "tabla_simultaneidad_ITC_BT_10": [
+      0, 1, 2, 3, 3.8, 4.6, 5.4, 6.2, 7.0, 7.8, 8.5,
+      9.2, 9.9, 10.6, 11.3, 11.9, 12.5, 13.1, 13.7, 14.3, 14.8, 15.3
+    ]
+  },
+  "locales": {
+    "minimo_W_m2": 100,
+    "minimo_absoluto_W": 3450
+  },
+  "garajes": {
+    "ratios_ventilacion_W_m2": {
+      "natural": 10,
+      "forzada": 20
+    }
+  },
+  "vehiculos_electricos": {
+    "potencia_base_W": 3680,
+    "porcentaje_plazas": 0.10,
+    "coeficientes_SPL": {
+      "con_SPL": 0.3,
+      "sin_SPL": 1.0
+    }
+  },
+  "servicios_generales": {
+    "coeficiente_motores_elevacion": 1.3,
+    "potencias_ascensor_W": {
+      "ITA-1": 3000,
+      "ITA-2": 4500,
+      "ITA-3": 6000,
+      "ITA-4": 7500
+    },
+    "ratios_iluminacion_W_m2": {
+      "led": 5,
+      "incandescente": 15
+    }
+  },
+  "red_y_cgp": {
+    "umbral_centro_transformacion_W": 100000,
+    "voltaje_trifasico_V": 400,
+    "calibres_estandar_A": [100, 160, 250, 400, 630],
+    "esquema_defecto": 9
+  }
+}

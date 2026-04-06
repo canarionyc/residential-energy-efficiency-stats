@@ -1,0 +1,56 @@
+{
+  "edificacion_general": {
+    "plantas_sobre_rasante": 11,
+    "plantas_bajo_rasante": 2
+  },
+  "viviendas": {
+    "plantas_destinadas": 10,
+    "tipos": [
+      {
+        "tipo": 1,
+        "cantidad_por_planta": 2,
+        "superficie_m2": 90,
+        "aire_acondicionado": false,
+        "puntos_alumbrado": null
+      },
+      {
+        "tipo": 2,
+        "cantidad_por_planta": 2,
+        "superficie_m2": 170,
+        "aire_acondicionado": false,
+        "puntos_alumbrado": null
+      }
+    ]
+  },
+  "locales": {
+    "tipos": [
+      { "tipo": 1, "cantidad": 1, "superficie_m2": 80, "potencia_estimada_W": null },
+      { "tipo": 2, "cantidad": 1, "superficie_m2": 80, "potencia_estimada_W": null },
+      { "tipo": 3, "cantidad": 1, "superficie_m2": 80, "potencia_estimada_W": null },
+      { "tipo": 4, "cantidad": 1, "superficie_m2": 70, "potencia_estimada_W": null },
+      { "tipo": 5, "cantidad": 1, "superficie_m2": 70, "potencia_estimada_W": 9200 }
+    ]
+  },
+  "garajes": {
+    "plantas": [
+      { "planta": "-1", "ventilacion": "forzada", "superficie_m2": 600 },
+      { "planta": "-2", "ventilacion": "forzada", "superficie_m2": 600 }
+    ]
+  },
+  "vehiculos_electricos": {
+    "plazas_totales": 50,
+    "preve_SPL": false
+  },
+  "servicios_generales": {
+    "ascensor_tipo": "ITA-3",
+    "alumbrado_zonas_comunes": {
+      "tipo_luminaria": "LED",
+      "superficie_m2": 300
+    },
+    "alumbrado_escalera": {
+      "tipo_luminaria": "LED",
+      "superficie_m2": 50
+    },
+    "potencia_grupo_presion_W": 4000
+  }
+}
