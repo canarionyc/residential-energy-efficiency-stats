@@ -1,7 +1,8 @@
 {
   "edificacion_general": {
     "plantas_sobre_rasante": 9,
-    "plantas_bajo_rasante": 2
+    "plantas_bajo_rasante": 2,
+    "es_trifasico": false
   },
   "viviendas": {
     "plantas_destinadas": 8,
