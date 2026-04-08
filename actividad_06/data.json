@@ -1,0 +1,13 @@
+{
+  "proyecto": {
+    "prevision_carga_W": 145000,
+    "tipo_acometida": "subterranea",
+    "cos_phi": 0.9
+  },
+  "lga": {
+    "sistema_instalacion": "B1",
+    "temperatura_ambiente_C": 45,
+    "longitud_m": 40.0,
+    "conductividad_c": 44.0
+  }
+}
