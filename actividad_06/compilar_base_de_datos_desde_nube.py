@@ -59,4 +59,5 @@ def compilar_base_de_datos_desde_nube(db_path: str):
 	print(f"✅ DuckDB database successfully compiled at: {db_path}")
 
 # Execute the compilation
+notebooklm_url="https://notebooklm.google.com/notebook/ab195a77-32ea-4667-8f9c-2e0804945b85"
 compilar_base_de_datos_desde_nube('normativas.duckdb')
