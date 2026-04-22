@@ -1,0 +1,12 @@
+// Decision Engine
+digraph {
+	rankdir=TB size="8,5"
+	node [fillcolor="#f9f9f9" fontname=Helvetica shape=box style="rounded,filled"]
+	fontname="Helvetica-Bold" fontsize=16 label="
+Motor de Decisión Eléctrica: Calibre IGM" labelloc=t
+	"619c52ed-624c-454b-ad20-ca6c8a15f8e4" [label="¿Carga < 90kW?" fillcolor="#fff2cc" shape=diamond style=filled]
+	"9fc46025-3286-46e6-a5fd-38c2cb53b845" [label="IGM: 160A" fillcolor="#d5e8d4" shape=box style="filled,bold"]
+	"619c52ed-624c-454b-ad20-ca6c8a15f8e4" -> "9fc46025-3286-46e6-a5fd-38c2cb53b845" [label="SÍ" color="#666666" fontname=Helvetica fontsize=10]
+	"277c44cd-d520-4f87-93a9-546e7dc68157" [label="IGM: 250A" fillcolor="#d5e8d4" shape=box style="filled,bold"]
+	"619c52ed-624c-454b-ad20-ca6c8a15f8e4" -> "277c44cd-d520-4f87-93a9-546e7dc68157" [label=NO color="#666666" fontname=Helvetica fontsize=10]
+}

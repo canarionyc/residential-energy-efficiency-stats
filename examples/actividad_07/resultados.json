@@ -1,0 +1,41 @@
+[
+  {
+    "id": "CASO 01",
+    "potencia_kW": 110.0,
+    "sistema": "ENTERRADA",
+    "ib_A": 176.41,
+    "s_caida_mm2": 109.38,
+    "fase_mm2": 120.0,
+    "iz_A": 350.0,
+    "neutro_mm2": 70.0,
+    "tubo_mm": 160.0,
+    "in_min_A": 177,
+    "in_max_A": 350
+  },
+  {
+    "id": "CASO 02",
+    "potencia_kW": 87.0,
+    "sistema": "ENTERRADA",
+    "ib_A": 139.53,
+    "s_caida_mm2": 37.07,
+    "fase_mm2": 50.0,
+    "iz_A": 215.0,
+    "neutro_mm2": 25.0,
+    "tubo_mm": 160.0,
+    "in_min_A": 140,
+    "in_max_A": 215
+  },
+  {
+    "id": "CASO 03",
+    "potencia_kW": 35.0,
+    "sistema": "A1",
+    "ib_A": 56.13,
+    "s_caida_mm2": 29.83,
+    "fase_mm2": 35.0,
+    "iz_A": 99.0,
+    "neutro_mm2": 16.0,
+    "tubo_mm": 75.0,
+    "in_min_A": 57,
+    "in_max_A": 99
+  }
+]

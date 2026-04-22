@@ -1,0 +1,63 @@
+flowchart TD
+    %% Estilos
+    classDef input fill:#ffffff,stroke:#333,stroke-width:2px,color:#333
+    classDef output fill:#e9f5ff,stroke:#333,stroke-width:2px,color:#333
+    classDef database fill:#fff8e1,stroke:#333,stroke-width:2px,color:#333
+    classDef process fill:#f3e5f5,stroke:#333,stroke-width:2px,color:#333
+    classDef decision fill:#e8f5e9,stroke:#333,stroke-width:2px,color:#333
+
+    IN[/Datos de Entrada: P, L, Sistema, Temp, V/]:::input
+
+    subgraph FASE 1: FÍSICA [1. Criterios de Diseño - Física Pura]
+        IB[Cálculo Intensidad: Ib = P / √3·V·cosφ]:::process
+        S_CDT[Sección Teórica: S = P·L / c·ΔV·V]:::process
+        TEMP[Corrección Térmica: Ib_corr = Ib / Factor_T]:::process
+    end
+
+    subgraph FASE 2: NORMATIVA [2. Aplicación Normativa - DuckDB]
+        DB_FASE[(DuckDB: Intensidades\nSubterráneas / Superficie)]:::database
+        DB_NEU[(DuckDB: Secciones Neutro)]:::database
+        DB_TUB[(DuckDB: Diámetros Tubos)]:::database
+
+        Q_FASE{Filtro Fase:\nS_comercial >= S_caída\nIz >= Ib_corr}:::decision
+        Q_NEU{Búsqueda Neutro por Fase}:::decision
+        Q_TUB{Búsqueda Tubo por Fase y Sist.}:::decision
+
+        RES_FASE[Adopción Fase: S mm2, Iz A]:::process
+        RES_NEU[Adopción Neutro: S mm2]:::process
+        RES_TUB[Adopción Tubo: D mm]:::process
+    end
+
+    subgraph FASE 3: PROTECCIONES [3. Protecciones CGP]
+        FUSIBLES{Filtro Fusible:\nIb <= In <= Iz}:::decision
+        RES_FUS[Adopción Fusible: In A]:::process
+    end
+
+    OUT[/Solución Constructiva Trazable/]:::output
+
+    %% Conexiones
+    IN --> IB
+    IN --> S_CDT
+    IB --> TEMP
+
+    TEMP --> Q_FASE
+    S_CDT --> Q_FASE
+    DB_FASE -.-> Q_FASE
+    Q_FASE --> RES_FASE
+
+    RES_FASE --> Q_NEU
+    DB_NEU -.-> Q_NEU
+    Q_NEU --> RES_NEU
+
+    RES_FASE --> Q_TUB
+    DB_TUB -.-> Q_TUB
+    Q_TUB --> RES_TUB
+
+    IB --> FUSIBLES
+    RES_FASE --> FUSIBLES
+    FUSIBLES --> RES_FUS
+
+    RES_FASE --> OUT
+    RES_NEU --> OUT
+    RES_TUB --> OUT
+    RES_FUS --> OUT

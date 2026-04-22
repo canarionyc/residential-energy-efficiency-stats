@@ -1,0 +1,5 @@
+digraph G {
+  node [shape=rect, style=filled, color=lightblue];
+  "VS Code" -> "Graphviz Extension" -> "Beautiful Diagram";
+  "Graphviz Extension" -> "Instant Feedback";
+}

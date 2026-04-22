@@ -1,0 +1,17 @@
+id_sistema,seccion_fase_mm2,diametro_minimo_mm
+enterrada,16.0,160.0
+enterrada,25.0,160.0
+enterrada,35.0,160.0
+enterrada,50.0,160.0
+enterrada,70.0,160.0
+enterrada,95.0,160.0
+enterrada,120.0,160.0
+enterrada,150.0,160.0
+A1,16.0,63.0
+A1,25.0,75.0
+A1,35.0,75.0
+A1,50.0,90.0
+A1,70.0,90.0
+A1,95.0,110.0
+A1,120.0,110.0
+A1,150.0,125.0

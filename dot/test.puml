@@ -1,0 +1,8 @@
+@startdot
+digraph G {
+    node [shape=component, fontname="Arial", style=filled, fillcolor=lightcyan];
+
+    "Old Plugin" -> "Blurry PNGs" [color=red];
+    "PlantUML Plugin" -> "Crisp SVGs" [color=green, penwidth=2.0];
+}
+@enddot

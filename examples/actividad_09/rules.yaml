@@ -1,0 +1,28 @@
+# rules.yaml - Human readable, Python-ready
+location_rules:
+  - condition: "floors <= 12"
+    result: "Ground Floor (PB)" # [cite: 12]
+  - condition: "floors > 12"
+    result: "Distributed every 6 floors" # [cite: 12]
+
+installation_type:
+  - if: "meters <= 16"
+    type: "Armario" # [cite: 14]
+    requirements:
+      separation_lateral: 20 # [cite: 15]
+      height_min: 50 # [cite: 17]
+      height_max: 180 # [cite: 17]
+      frontal_space: 150 # [cite: 21]
+  - if: "meters > 16"
+    type: "Local" # [cite: 21]
+    requirements:
+      min_height: 230 # [cite: 25]
+      min_door: [70, 200] # [cite: 29]
+      frontal_space: 110 # [cite: 25]
+
+electrical_components:
+  igm_rating:
+    - range: [0, 90]
+      value: 160 # 
+    - range: [90, 150]
+      value: 250 #

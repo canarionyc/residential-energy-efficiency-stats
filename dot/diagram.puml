@@ -1,0 +1,10 @@
+@startuml
+skinparam handwritten false
+autonumber
+
+User -> "PyCharm": Write Code
+"PyCharm" -> "PlantUML Plugin": Parse syntax
+"PlantUML Plugin" -> "Graphviz": Calculate layout
+"Graphviz" --> "PlantUML Plugin": Return SVG image
+"PlantUML Plugin" --> User: Display crisp preview
+@enduml

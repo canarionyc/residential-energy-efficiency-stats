@@ -1,0 +1,100 @@
+%% Save this in your project folder as 'plantilla_informe.tex'
+\documentclass{article}
+%\usepackage[utf8]{inputenc}
+\usepackage{geometry}
+\usepackage{graphicx}
+\geometry{a4paper, margin=2cm}
+
+\begin{document}
+
+\title{Memoria de Cálculo: Líneas Generales de Alimentación}
+\author{Tomas González Llarena}
+\maketitle
+
+% The Jinja loop starts here, iterating over your JSON array
+\section*{Resolución CASO 01}
+\textbf{Datos Generales:} Potencia: 110.0 kW | Sistema de Instalación: ENTERRADA
+
+\subsection*{1. Criterios de Diseño (Física)}
+\begin{itemize}
+    \item Intensidad de diseño ($I_b$): \textbf{176.41 A}
+    \item Sección teórica por caída de tensión: \textbf{109.38 mm$^2$}
+\end{itemize}
+
+\subsection*{2. Aplicación Normativa (REBT y Normas UNE)}
+\begin{enumerate}
+    \item \textbf{Tipo conductor:} Cobre, Aislamiento termoestable XLPE/EPR (0.6/1kV).
+    \item \textbf{Sección Fase:} \textbf{120.0 mm$^2$}. \textit{Justificación \cite{une_hd_60364_5_52}:} La sección comercial adoptada soporta una intensidad admisible de 350.0 A, cumpliendo la condición térmica ($I_z > I_b$).
+    \item \textbf{Sección Neutro:} \textbf{70.0 mm$^2$}. \textit{Justificación \cite{guia_bt_14}:} Reducción reglamentaria según sección de fase.
+    \item \textbf{Diámetro tubo:} \textbf{160.0 mm}. \textit{Justificación \cite{rebt_rd842}:} Diámetro mínimo exigido para el sistema de instalación (ITC-BT-14).
+    \item \textbf{Solución constructiva final:} \textbf{3x120.0 + 1x70.0 mm$^2$}
+    \item \textbf{CGP y Fusibles:} CGP-9 | Fusibles $I_n$ entre \textbf{177 A} y \textbf{350 A}. \textit{Justificación \cite{rebt_rd842}:} Protección contra sobrecargas cumpliendo la condición $I_b \leq I_n \leq I_z$.
+\end{enumerate}
+
+\vspace{1cm}
+\hrule
+\vspace{1cm}
+\section*{Resolución CASO 02}
+\textbf{Datos Generales:} Potencia: 87.0 kW | Sistema de Instalación: ENTERRADA
+
+\subsection*{1. Criterios de Diseño (Física)}
+\begin{itemize}
+    \item Intensidad de diseño ($I_b$): \textbf{139.53 A}
+    \item Sección teórica por caída de tensión: \textbf{37.07 mm$^2$}
+\end{itemize}
+
+\subsection*{2. Aplicación Normativa (REBT y Normas UNE)}
+\begin{enumerate}
+    \item \textbf{Tipo conductor:} Cobre, Aislamiento termoestable XLPE/EPR (0.6/1kV).
+    \item \textbf{Sección Fase:} \textbf{50.0 mm$^2$}. \textit{Justificación \cite{une_hd_60364_5_52}:} La sección comercial adoptada soporta una intensidad admisible de 215.0 A, cumpliendo la condición térmica ($I_z > I_b$).
+    \item \textbf{Sección Neutro:} \textbf{25.0 mm$^2$}. \textit{Justificación \cite{guia_bt_14}:} Reducción reglamentaria según sección de fase.
+    \item \textbf{Diámetro tubo:} \textbf{160.0 mm}. \textit{Justificación \cite{rebt_rd842}:} Diámetro mínimo exigido para el sistema de instalación (ITC-BT-14).
+    \item \textbf{Solución constructiva final:} \textbf{3x50.0 + 1x25.0 mm$^2$}
+    \item \textbf{CGP y Fusibles:} CGP-9 | Fusibles $I_n$ entre \textbf{140 A} y \textbf{215 A}. \textit{Justificación \cite{rebt_rd842}:} Protección contra sobrecargas cumpliendo la condición $I_b \leq I_n \leq I_z$.
+\end{enumerate}
+
+\vspace{1cm}
+\hrule
+\vspace{1cm}
+\section*{Resolución CASO 03}
+\textbf{Datos Generales:} Potencia: 35.0 kW | Sistema de Instalación: A1
+
+\subsection*{1. Criterios de Diseño (Física)}
+\begin{itemize}
+    \item Intensidad de diseño ($I_b$): \textbf{56.13 A}
+    \item Sección teórica por caída de tensión: \textbf{29.83 mm$^2$}
+\end{itemize}
+
+\subsection*{2. Aplicación Normativa (REBT y Normas UNE)}
+\begin{enumerate}
+    \item \textbf{Tipo conductor:} Cobre, Aislamiento termoestable XLPE/EPR (0.6/1kV).
+    \item \textbf{Sección Fase:} \textbf{35.0 mm$^2$}. \textit{Justificación \cite{une_hd_60364_5_52}:} La sección comercial adoptada soporta una intensidad admisible de 99.0 A, cumpliendo la condición térmica ($I_z > I_b$).
+    \item \textbf{Sección Neutro:} \textbf{16.0 mm$^2$}. \textit{Justificación \cite{guia_bt_14}:} Reducción reglamentaria según sección de fase.
+    \item \textbf{Diámetro tubo:} \textbf{75.0 mm}. \textit{Justificación \cite{rebt_rd842}:} Diámetro mínimo exigido para el sistema de instalación (ITC-BT-14).
+    \item \textbf{Solución constructiva final:} \textbf{3x35.0 + 1x16.0 mm$^2$}
+    \item \textbf{CGP y Fusibles:} CGP-9 | Fusibles $I_n$ entre \textbf{57 A} y \textbf{99 A}. \textit{Justificación \cite{rebt_rd842}:} Protección contra sobrecargas cumpliendo la condición $I_b \leq I_n \leq I_z$.
+\end{enumerate}
+
+\vspace{1cm}
+\hrule
+\vspace{1cm}
+
+\begin{figure}[h]
+    \centering
+    % Nota que usamos .pdf o simplemente el nombre sin extensión
+    \includegraphics[width=0.7\textwidth]{esquema_unifilar.pdf} 
+    \caption{Esquema Unifilar de la LGA y CGP.}
+\end{figure}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.9\textwidth]{LGA-2026-04-10-060117.png}
+   \caption{Flujo del Cálculo.}
+\end{figure}
+
+% --- SECCIÓN DE BIBLIOGRAFÍA ---
+\renewcommand{\refname}{Marco Normativo y Herramientas}
+\bibliographystyle{unsrt} % Estilo numérico (1, 2, 3...)
+\bibliography{referencias} % Apunta al archivo referencias.bib
+
+\end{document}

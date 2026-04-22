@@ -1,0 +1,62 @@
+---
+config:
+  theme: mc
+  layout: fixed
+---
+flowchart TB
+ subgraph F1["1. FÍSICA PURA"]
+    direction TB
+        IB["Cálculo Ib = P / √3·V·cosφ"]
+        S_CDT["Sección Teórica por ΔV"]
+        TEMP["Corrección Térmica de Ib"]
+  end
+ subgraph F2["2. NORMATIVA DuckDB"]
+    direction TB
+        DB[("Tablas REBT")]
+        Q_FASE{"Filtro Fase:\nS_com ≥ S_caída\nIz ≥ Ib_corr"}
+        RES_FASE["Fase: S mm2, Iz"]
+        Q_NEU{"Filtro Neutro"}
+        RES_NEU["Neutro: S mm2"]
+        Q_TUB{"Filtro Tubo"}
+        RES_TUB["Tubo: D mm"]
+  end
+ subgraph F3["3. PROTECCIONES"]
+    direction TB
+        FUSIBLES{"Filtro Fusible:\nIb ≤ In ≤ Iz"}
+        RES_FUS["Fusible: In A"]
+  end
+    IB --> TEMP
+    Q_FASE --> RES_FASE
+    RES_FASE --> Q_NEU & Q_TUB & OUT[/"Memoria Constructiva"/]
+    Q_NEU --> RES_NEU
+    Q_TUB --> RES_TUB
+    FUSIBLES --> RES_FUS
+    IN[/"Datos: P, L, Sist, Temp, V"/] --> IB & S_CDT
+    TEMP --> Q_FASE
+    S_CDT --> Q_FASE
+    DB -.-> Q_FASE & Q_NEU & Q_TUB
+    IB -.-> FUSIBLES
+    RES_FASE -.-> FUSIBLES
+    RES_NEU --> OUT
+    RES_TUB --> OUT
+    RES_FUS --> OUT
+
+     IB:::process
+     S_CDT:::process
+     TEMP:::process
+     DB:::database
+     Q_FASE:::decision
+     RES_FASE:::process
+     Q_NEU:::decision
+     RES_NEU:::process
+     Q_TUB:::decision
+     RES_TUB:::process
+     FUSIBLES:::decision
+     RES_FUS:::process
+     OUT:::output
+     IN:::input
+    classDef input fill:#f4f4f4,stroke:#666666,stroke-width:2px,color:#333333
+    classDef output fill:#e8f5e9,stroke:#2e7d32,stroke-width:2px,color:#333333
+    classDef database fill:#fff3e0,stroke:#e65100,stroke-width:2px,color:#333333
+    classDef process fill:#e1f5fe,stroke:#0277bd,stroke-width:2px,color:#333333
+    classDef decision fill:#fff9c4,stroke:#fbc02d,stroke-width:2px,color:#333333

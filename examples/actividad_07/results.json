@@ -1,0 +1,30 @@
+{
+  "CASO_01": {
+  "1_tipo_conductor": {
+    "valor": "Cobre, aislamiento XLPE/EPR (0.6/1kV)",
+    "norma": "ITC-BT-14",
+    "traza": "Por defecto para LGA enterradas."
+  },
+  "2_seccion_fase_mm2": {
+    "valor": 95,
+    "criterio_termico": "Ib = 176A -> Iz DuckDB (enterrado) = 220A (S=95mm2)",
+    "criterio_caida": "S = (110000*35)/(44*2*400) = 109mm2 -> Comercial 120mm2",
+    "decision_final": 120,
+    "traza": "Se adopta 120mm2 por ser el mayor de ambos criterios."
+  },
+  "3_seccion_neutro_mm2": {
+    "valor": 70,
+    "norma": "ITC-BT-14",
+    "traza": "Búsqueda en tabla para fase de 120mm2."
+  },
+  "4_diametro_tubo_mm": {
+    "valor": 160,
+    "norma": "ITC-BT-07 / Normas UNELCO",
+    "traza": "Diámetro mínimo exigido para redes subterráneas."
+  },
+  "6_cgp_y_fusibles_A": {
+    "valor": "CGP-9, Fusibles 250A",
+    "traza": "In debe cumplir Ib (176A) <= In <= Iz (260A). Seleccionado escalón 250A."
+  }
+}
+}

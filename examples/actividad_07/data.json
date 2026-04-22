@@ -1,0 +1,31 @@
+{
+  "casos_lga": [
+    {
+      "id": "CASO_01",
+      "potencia_W": 110000,
+      "ubicacion_cc": "planta_baja",
+      "instalacion": "enterrada",
+      "longitud_m": 35.0,
+      "tubos_paralelos": 2,
+      "temperatura_C": 20
+    },
+    {
+      "id": "CASO_02",
+      "potencia_W": 87000,
+      "ubicacion_cc": "planta_baja",
+      "instalacion": "enterrada",
+      "longitud_m": 15.0,
+      "tubos_paralelos": 2,
+      "temperatura_C": 20
+    },
+    {
+      "id": "CASO_03",
+      "potencia_W": 35000,
+      "ubicacion_cc": "planta_baja",
+      "instalacion": "A1",
+      "longitud_m": 30.0,
+      "tubos_paralelos": 1,
+      "temperatura_C": 40
+    }
+  ]
+}

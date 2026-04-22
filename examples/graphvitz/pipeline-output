@@ -1,0 +1,8 @@
+// The Data Pipeline
+digraph {
+	A [label="Raw Data"]
+	B [label="Etl Process"]
+	C [label=Database]
+	A -> B
+	B -> C
+}

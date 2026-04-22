@@ -1,0 +1,12 @@
+// Decision Engine
+digraph {
+	rankdir=TB size="8,5"
+	node [fillcolor="#f9f9f9" fontname=Helvetica shape=box style="rounded,filled"]
+	fontname="Helvetica-Bold" fontsize=16 label="
+Motor de Decisión Espacial: Tipo de Instalación" labelloc=t
+	"fbba215f-6f6f-410f-b8c6-5abaf1944e4c" [label="¿Contadores > 16?" fillcolor="#fff2cc" shape=diamond style=filled]
+	"91cea544-bcb2-420c-aff7-583cdb9c90e8" [label="Tipo: Local" fillcolor="#d5e8d4" shape=box style="filled,bold"]
+	"fbba215f-6f6f-410f-b8c6-5abaf1944e4c" -> "91cea544-bcb2-420c-aff7-583cdb9c90e8" [label="SÍ" color="#666666" fontname=Helvetica fontsize=10]
+	"8219056c-5211-45a0-b8f6-178697b40c32" [label="Tipo: Armario" fillcolor="#d5e8d4" shape=box style="filled,bold"]
+	"fbba215f-6f6f-410f-b8c6-5abaf1944e4c" -> "8219056c-5211-45a0-b8f6-178697b40c32" [label=NO color="#666666" fontname=Helvetica fontsize=10]
+}

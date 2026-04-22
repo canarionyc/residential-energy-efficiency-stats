@@ -1,0 +1,11 @@
+id_sistema,seccion_mm2,material,aislamiento,intensidad_A
+enterrada,16.0,Cobre,XLPE,115.0
+enterrada,25.0,Cobre,XLPE,150.0
+enterrada,35.0,Cobre,XLPE,180.0
+enterrada,50.0,Cobre,XLPE,215.0
+enterrada,70.0,Cobre,XLPE,260.0
+enterrada,95.0,Cobre,XLPE,310.0
+enterrada,120.0,Cobre,XLPE,350.0
+enterrada,150.0,Cobre,XLPE,395.0
+enterrada,185.0,Cobre,XLPE,445.0
+enterrada,240.0,Cobre,XLPE,520.0

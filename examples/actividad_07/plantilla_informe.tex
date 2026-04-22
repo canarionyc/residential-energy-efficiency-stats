@@ -1,0 +1,57 @@
+%% Save this in your project folder as 'plantilla_informe.tex'
+\documentclass{article}
+%\usepackage[utf8]{inputenc}
+\usepackage{geometry}
+\geometry{a4paper, margin=2cm}
+
+\begin{document}
+
+\title{Memoria de Cálculo: Líneas Generales de Alimentación}
+\author{Tomas González Llarena}
+\maketitle
+
+% The Jinja loop starts here, iterating over your JSON array
+<% for caso in resultados %>
+\section*{Resolución << caso.id >>}
+\textbf{Datos Generales:} Potencia: << caso.potencia_kW >> kW | Sistema de Instalación: << caso.sistema >>
+
+\subsection*{1. Criterios de Diseño (Física)}
+\begin{itemize}
+    \item Intensidad de diseño ($I_b$): \textbf{<< caso.ib_A >> A}
+    \item Sección teórica por caída de tensión: \textbf{<< caso.s_caida_mm2 >> mm$^2$}
+\end{itemize}
+
+\subsection*{2. Aplicación Normativa (REBT y Normas UNE)}
+\begin{enumerate}
+    \item \textbf{Tipo conductor:} Cobre, Aislamiento termoestable XLPE/EPR (0.6/1kV).
+    \item \textbf{Sección Fase:} \textbf{<< caso.fase_mm2 >> mm$^2$}. \textit{Justificación \cite{une_hd_60364_5_52}:} La sección comercial adoptada soporta una intensidad admisible de << caso.iz_A >> A, cumpliendo la condición térmica ($I_z > I_b$).
+    \item \textbf{Sección Neutro:} \textbf{<< caso.neutro_mm2 >> mm$^2$}. \textit{Justificación \cite{guia_bt_14}:} Reducción reglamentaria según sección de fase.
+    \item \textbf{Diámetro tubo:} \textbf{<< caso.tubo_mm >> mm}. \textit{Justificación \cite{rebt_rd842}:} Diámetro mínimo exigido para el sistema de instalación (ITC-BT-14).
+    \item \textbf{Solución constructiva final:} \textbf{3x<< caso.fase_mm2 >> + 1x<< caso.neutro_mm2 >> mm$^2$}
+    \item \textbf{CGP y Fusibles:} CGP-9 | Fusibles $I_n$ entre \textbf{<< caso.in_min_A >> A} y \textbf{<< caso.in_max_A >> A}. \textit{Justificación \cite{rebt_rd842}:} Protección contra sobrecargas cumpliendo la condición $I_b \leq I_n \leq I_z$.
+\end{enumerate}
+
+\vspace{1cm}
+\hrule
+\vspace{1cm}
+<% endfor %>
+
+\begin{figure}[h]
+    \centering
+    % Nota que usamos .pdf o simplemente el nombre sin extensión
+    \includegraphics[width=0.7\textwidth]{esquema_unifilar.pdf} 
+    \caption{Esquema Unifilar de la LGA y CGP.}
+\end{figure}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.9\textwidth]{LGA-2026-04-10-060117.png}
+   \caption{Flujo del Cálculo.}
+\end{figure}
+
+% --- SECCIÓN DE BIBLIOGRAFÍA ---
+\renewcommand{\refname}{Marco Normativo y Herramientas}
+\bibliographystyle{unsrt} % Estilo numérico (1, 2, 3...)
+\bibliography{referencias} % Apunta al archivo referencias.bib
+
+\end{document}

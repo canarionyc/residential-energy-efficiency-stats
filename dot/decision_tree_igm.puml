@@ -1,0 +1,13 @@
+@startuml
+digraph {
+	rankdir=TB size="8,5"
+	node [fillcolor="#f9f9f9" fontname=Helvetica shape=box style="rounded,filled"]
+	fontname="Helvetica-Bold" fontsize=16 label="
+Motor de Decisión Eléctrica: Calibre IGM" labelloc=t
+	"aa3aa11c-cf16-401a-a780-05ea7e6bfb42" [label="¿Carga >= 90kW?" fillcolor="#fff2cc" shape=diamond style=filled]
+	"b37ee743-7419-4b7c-a7ef-1b78639edffb" [label="IGM: 250A" fillcolor="#d5e8d4" shape=box style="filled,bold"]
+	"aa3aa11c-cf16-401a-a780-05ea7e6bfb42" -> "b37ee743-7419-4b7c-a7ef-1b78639edffb" [label="SÍ" color="#666666" fontname=Helvetica fontsize=10]
+	"df78af91-8780-402d-ad64-813be7a383c6" [label="IGM: 160A" fillcolor="#d5e8d4" shape=box style="filled,bold"]
+	"aa3aa11c-cf16-401a-a780-05ea7e6bfb42" -> "df78af91-8780-402d-ad64-813be7a383c6" [label=NO color="#666666" fontname=Helvetica fontsize=10]
+}
+@enduml
