@@ -118,13 +118,16 @@ case_results={**case_01_data,**results }
 print_results(case_results)
 
 # Generate the plot for Case 01 (9 DIs, assuming 32mm tubes for example)
-plot_conduit_detail(cases["CASE_01"]["num_di"], 32, "CASE_01")
+plot_conduit_detail(cases["CASE_01"]["num_di"], 32, "CASE_01", case_data=case_01_data, results=results)
 
 #%% caso 2
 case_data = cases['CASE_02']
 print(f"Case 2: {case_data}")
 solver = DISolver(case_data)
 print_results(solver.solve())
+
+plot_conduit_detail(cases["CASE_02"]["num_di"], 32, "CASE_02", case_data=case_01_data, results=results)
+
 
 #%% caso 3
 case_data = cases['CASE_03']

@@ -29,23 +29,88 @@ plot_meta = {
         "title": "Constructive Detail: Factory Conduit",
         "shaft": "Brick Shaft",
         "tube": "DI Tube",
-        "cover": "Fire-resistant Cover"
+        "cover": "Fire-resistant Cover",
+        "case_label": "Case Data",
+        "results_label": "Calculation Results",
+        "electrification": "Electrification",
+        "system": "System",
+        "length": "Length (m)",
+        "power": "Power (W)",
+        "temp": "Temp. (°C)",
+        "num_di": "No. of DIs",
+        "s_thermal": "Thermal limit (mm²)",
+        "s_voltage": "Voltage drop (mm²)",
+        "s_regulatory": "Regulatory min. (mm²)",
+        "final_section": "▶ Final section (mm²)",
     },
     "ES": {
         "title": "Detalle Constructivo: Conducto de Obra de Fábrica",
         "shaft": "Mocheta / Obra de Fábrica",
         "tube": "Tubo DI",
-        "cover": "Tapa Registro (RF)"
+        "cover": "Tapa Registro (RF)",
+        "case_label": "Datos del Caso",
+        "results_label": "Resultados del Cálculo",
+        "electrification": "Electrificación",
+        "system": "Sistema",
+        "length": "Longitud (m)",
+        "power": "Potencia (W)",
+        "temp": "Temp. (°C)",
+        "num_di": "Nº DIs",
+        "s_thermal": "Límite térmico (mm²)",
+        "s_voltage": "Caída de tensión (mm²)",
+        "s_regulatory": "Mínimo normativo (mm²)",
+        "final_section": "▶ Sección final (mm²)",
     }
 }
 
 
-def plot_conduit_detail(num_tubes, tube_diameter_mm, case_id):
+def _build_case_text(txt, case_data):
+    lines = [txt["case_label"], "─" * 22]
+    lines.append(f"{txt['electrification']}: {case_data.get('electrification', '—')}")
+    lines.append(f"{txt['system']}: {case_data.get('system', '—')}")
+    lines.append(f"{txt['length']}: {case_data.get('length_m', '—')}")
+    lines.append(f"{txt['power']}: {case_data.get('power_w', '—')}")
+    lines.append(f"{txt['temp']}: {case_data.get('temp_c', '—')}")
+    lines.append(f"{txt['num_di']}: {case_data.get('num_di', '—')}")
+    return "\n".join(lines)
+
+
+def _build_results_text(txt, results):
+    lines = [txt["results_label"], "─" * 22]
+    lines.append(f"{txt['s_thermal']}: {results.get('s_thermal', '—')}")
+    lines.append(f"{txt['s_voltage']}: {results.get('s_voltage', '—')}")
+    lines.append(f"{txt['s_regulatory']}: {results.get('s_regulatory', '—')}")
+    lines.append(f"{txt['final_section']}: {results.get('final_commercial_section', '—')}")
+    return "\n".join(lines)
+
+
+def plot_conduit_detail(num_tubes, tube_diameter_mm, case_id, case_data=None, results=None):
     """
     Plots the cross-section of the masonry conduit.
+    Optionally renders a case data panel (left) and results panel (right).
     """
     txt = plot_meta[LANG]
-    fig, ax = plt.subplots(figsize=(6, 6))
+    has_panels = case_data is not None and results is not None
+
+    if has_panels:
+        fig = plt.figure(figsize=(14, 6))
+        gs = fig.add_gridspec(1, 3, width_ratios=[1, 2, 1], wspace=0.05)
+        ax_left = fig.add_subplot(gs[0])
+        ax = fig.add_subplot(gs[1])
+        ax_right = fig.add_subplot(gs[2])
+        for side_ax in (ax_left, ax_right):
+            side_ax.axis('off')
+        ax_left.text(0.05, 0.95, _build_case_text(txt, case_data),
+                     transform=ax_left.transAxes, va='top', ha='left', fontsize=9,
+                     fontfamily='monospace',
+                     bbox=dict(boxstyle='round,pad=0.6', facecolor='#eef2ff', edgecolor='steelblue', linewidth=1.2))
+        ax_right.text(0.05, 0.95, _build_results_text(txt, results),
+                      transform=ax_right.transAxes, va='top', ha='left', fontsize=9,
+                      fontfamily='monospace',
+                      bbox=dict(boxstyle='round,pad=0.6', facecolor='#f0fff4', edgecolor='seagreen', linewidth=1.2))
+    else:
+        fig, ax = plt.subplots(figsize=(6, 6))
+
     ax.set_aspect('equal')
     ax.axis('off')
 
