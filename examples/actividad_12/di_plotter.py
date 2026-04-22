@@ -84,32 +84,43 @@ def _build_results_text(txt, results):
     return "\n".join(lines)
 
 
-def plot_conduit_detail(num_tubes, tube_diameter_mm, case_id, case_data=None, results=None):
+def plot_conduit_detail( case_data, results):
     """
     Plots the cross-section of the masonry conduit.
-    Optionally renders a case data panel (left) and results panel (right).
+    Renders a case data panel (left) and results panel (right).
+
+    Args:
+        num_tubes (int): The number of Individual Derivations to draw.
+        case_data (dict): The input parameters for the case.
+        results (dict): The output calculations from the solver.
     """
     txt = plot_meta[LANG]
-    has_panels = case_data is not None and results is not None
 
-    if has_panels:
-        fig = plt.figure(figsize=(14, 6))
-        gs = fig.add_gridspec(1, 3, width_ratios=[1, 2, 1], wspace=0.05)
-        ax_left = fig.add_subplot(gs[0])
-        ax = fig.add_subplot(gs[1])
-        ax_right = fig.add_subplot(gs[2])
-        for side_ax in (ax_left, ax_right):
-            side_ax.axis('off')
-        ax_left.text(0.05, 0.95, _build_case_text(txt, case_data),
-                     transform=ax_left.transAxes, va='top', ha='left', fontsize=9,
-                     fontfamily='monospace',
-                     bbox=dict(boxstyle='round,pad=0.6', facecolor='#eef2ff', edgecolor='steelblue', linewidth=1.2))
-        ax_right.text(0.05, 0.95, _build_results_text(txt, results),
-                      transform=ax_right.transAxes, va='top', ha='left', fontsize=9,
-                      fontfamily='monospace',
-                      bbox=dict(boxstyle='round,pad=0.6', facecolor='#f0fff4', edgecolor='seagreen', linewidth=1.2))
-    else:
-        fig, ax = plt.subplots(figsize=(6, 6))
+    # Extract variables that used to be passed as arguments
+    num_tubes = case_data["num_di"]
+    case_id = case_data.get("id", "Unknown_Case")
+    tube_diameter_mm = results.get("tube_diameter_mm", 32)  # Fallback to 32mm if not present
+
+    # Since case_data and results are now compulsory, we always draw the 3-panel layout
+    fig = plt.figure(figsize=(14, 6))
+    gs = fig.add_gridspec(1, 3, width_ratios=[1, 2, 1], wspace=0.05)
+
+    ax_left = fig.add_subplot(gs[0])
+    ax = fig.add_subplot(gs[1])
+    ax_right = fig.add_subplot(gs[2])
+
+    for side_ax in (ax_left, ax_right):
+        side_ax.axis('off')
+
+    ax_left.text(0.05, 0.95, _build_case_text(txt, case_data),
+        transform=ax_left.transAxes, va='top', ha='left', fontsize=9,
+        fontfamily='monospace',
+        bbox=dict(boxstyle='round,pad=0.6', facecolor='#eef2ff', edgecolor='steelblue', linewidth=1.2))
+
+    ax_right.text(0.05, 0.95, _build_results_text(txt, results),
+        transform=ax_right.transAxes, va='top', ha='left', fontsize=9,
+        fontfamily='monospace',
+        bbox=dict(boxstyle='round,pad=0.6', facecolor='#f0fff4', edgecolor='seagreen', linewidth=1.2))
 
     ax.set_aspect('equal')
     ax.axis('off')
@@ -154,5 +165,5 @@ def plot_conduit_detail(num_tubes, tube_diameter_mm, case_id, case_data=None, re
 
     # Save to PDF
     plt.tight_layout()
-    plt.savefig(output_dir/ f"{case_id}_detalle_constructivo.pdf", format="pdf", bbox_inches="tight")
+    plt.savefig(output_dir / f"{case_id}_detalle_constructivo.pdf", format="pdf", bbox_inches="tight")
     # plt.show()
