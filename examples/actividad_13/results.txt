@@ -1,0 +1,96 @@
+============================================================
+[CUADRO] CASO PRÁCTICO 01 (Electrificacion elevada
+* You have 45 lighting points (C1 is split).
+* You have Domotics (C8 in your diagram).
+* You have split C2 and C5.
+)
+  |-- [IGA (Interruptor General)] A (The IGA must be sized to handle that minimum power on a standard 230V single-phase supply:$$I = \frac{P}{V} = \frac{9200 \text{ W}}{230 \text{ V}} = 40 \text{ A}$$ The standard commercial values for IGAs are 25A, 32A, 40A, 50A, and 63A.Therefore, for Case 01, IGA should be 40A.
+  The IGA protects the IDs. If you choose a 40A IGA, your 40A IDs are perfectly protected from overloads, because the main switch will trip before the IDs melt. However, if a future homeowner upgrades their contracted power to 11,500W and swaps the IGA for a 50A breaker, those 40A IDs would be in danger and would legally need to be upgraded to 63A. For your current layout, an IGA of 40A is the mathematically and legally perfect choice. )
+       |
+       +-- [ID (Diferencial) 1] 40A/30mA
+                |-- C1a - Iluminación: PIA 10A | Cond. 1.5mm2 | Tubo 16mm | 23 pts
+                |-- C2 - Uso general 1: PIA 16A | Cond. 2.5mm2 | Tubo 20mm | 10 pts
+                |-- C3 - Cocina/Horno: PIA 25A | Cond. 6.0mm2 | Tubo 25mm | 2 pts
+                +-- C8 - Domótica: PIA 10A | Cond. 1.5mm2 | Tubo 16mm | 1 pts
+       |
+       +-- [ID (Diferencial) 2] 40A/30mA
+                |-- C1b - Iluminación: PIA 10A | Cond. 1.5mm2 | Tubo 16mm | 22 pts
+                |-- C2 - Uso general 2: PIA 16A | Cond. 2.5mm2 | Tubo 20mm | 10 pts
+                |-- C4 - Lavadora: PIA 20A | Cond. 4.0mm2 | Tubo 20mm | 1 pts
+                |-- C4 - Lavavajillas: PIA 20A | Cond. 4.0mm2 | Tubo 20mm | 1 pts
+                |-- C4 - Termo: PIA 20A | Cond. 4.0mm2 | Tubo 20mm | 1 pts
+                |-- C5 - Baño: PIA 16A | Cond. 2.5mm2 | Tubo 20mm | 3 pts
+                +-- C5 - Cocina tomas: PIA 16A | Cond. 2.5mm2 | Tubo 20mm | 3 pts
+============================================================
+
+============================================================
+[CUADRO] CASO PRÁCTICO 02 (9.200W)
+  |-- [IGA (Interruptor General)] 40A
+       |
+       +-- [ID (Diferencial) 1] 40A/30mA
+                |-- C1a - Iluminación: PIA 10A | Cond. 2.5mm2 | Tubo 20mm | 23 pts (L=27m)
+                |-- C2a - Uso general: PIA 16A | Cond. 2.5mm2 | Tubo 20mm | 15 pts (L=30m)
+                |-- C4 - Lav/Lavav/Termo: PIA 20A | Cond. 4.0mm2 | Tubo 20mm | 3 pts (L=18m)
+                +-- C5a - Baño/Cocina: PIA 16A | Cond. 2.5mm2 | Tubo 20mm | 4 pts (L=15m)
+       |
+       +-- [ID (Diferencial) 2] 40A/30mA
+                |-- C1b - Iluminación: PIA 10A | Cond. 2.5mm2 | Tubo 20mm | 23 pts (L=27m)
+                |-- C2 - Uso general: PIA 16A | Cond. 2.5mm2 | Tubo 20mm | 15 pts (L=30m)
+                |-- C3 - Cocina y horno: PIA 25A | Cond. 6.0mm2 | Tubo 25mm | 2 pts (L=10m)
+                |-- C5b - Baño/Cocina: PIA 16A | Cond. 2.5mm2 | Tubo 20mm | 4 pts (L=15m)
+                +-- C10 - Secadora: PIA 16A | Cond. 2.5mm2 | Tubo 20mm | 1 pts (L=18m)
+============================================================
+
+============================================================
+[CUADRO] CASO PRÁCTICO 03 (Potencia Desconocida - Elevada)
+  |-- [IGA (Interruptor General)] A (When the assignment states the power is "unknown," the REBT dictates that the distribution panel (CDMP) and the main installation must be dimensioned to handle the *absolute minimum* power legally defined for that specific electrification tier.
+
+**3. The Calculation**
+For *Electrificación Elevada*, the statutory minimum base load is **9,200 W**.
+$$I = \frac{9200 \text{ W}}{230 \text{ V}} = 40 \text{ A}$$
+
+Since 40A is a standard commercial magnetothermal size, a 40A IGA is the perfect statutory fit to protect the downstream 40A RCDs.
+)
+       |
+       +-- [ID (Diferencial) 1] 40A/30mA
+                |-- C1a - Iluminación 1: PIA 10A | Cond. 1.5mm2 | Tubo 16mm | 15 pts
+                |-- C2a - Uso general 1: PIA 16A | Cond. 2.5mm2 | Tubo 20mm | 10 pts
+                |-- C5 - Baño: PIA 16A | Cond. 2.5mm2 | Tubo 20mm | 3 pts
+                |-- C4a - Lavadora: PIA 20A | Cond. 4.0mm2 | Tubo 20mm | 1 pts
+                +-- C11 - Domótica: PIA 10A | Cond. 1.5mm2 | Tubo 16mm | 1 pts
+       |
+       +-- [ID (Diferencial) 2] 40A/30mA
+                |-- C1b - Iluminación 2: PIA 10A | Cond. 1.5mm2 | Tubo 16mm | 15 pts
+                |-- C2b - Uso general 2: PIA 16A | Cond. 2.5mm2 | Tubo 20mm | 10 pts
+                |-- C4b - Lavavajillas: PIA 20A | Cond. 4.0mm2 | Tubo 20mm | 1 pts
+                |-- C5 - Cocina tomas: PIA 16A | Cond. 2.5mm2 | Tubo 20mm | 3 pts
+                +-- C3 - Cocina/Horno: PIA 25A | Cond. 6.0mm2 | Tubo 25mm | 2 pts
+       |
+       +-- [ID (Diferencial) 3] 40A/30mA
+                +-- C4c - Termo: PIA 20A | Cond. 4.0mm2 | Tubo 20mm | 1 pts
+============================================================
+
+[CUADRO] CASO PRÁCTICO 04 (Contrato 5.750W / Topología Elevada)
+  |-- [IGA (Interruptor General)] 40A
+       |
+       +-- [ID (Diferencial) 1 (Planta Baja A)] 40A/30mA
+                |-- C1 - Iluminación PB (A): PIA 10A | Cond. 1.5mm2 | Tubo 16mm | 17 pts
+                |-- C2 - Uso general PB: PIA 16A | Cond. 2.5mm2 | Tubo 20mm | 16 pts
+                |-- C3 - Cocina y horno: PIA 25A | Cond. 6.0mm2 | Tubo 25mm | 1 pts
+                |-- C5 - Baño/Cocina PB (A): PIA 16A | Cond. 2.5mm2 | Tubo 20mm | 4 pts
+                +-- C10 - Secadora: PIA 16A | Cond. 2.5mm2 | Tubo 20mm | 1 pts
+       |
+       +-- [ID (Diferencial) 2 (Planta Baja B + Planta Alta)] 40A/30mA
+                |-- C1 - Iluminación PB (B): PIA 10A | Cond. 1.5mm2 | Tubo 16mm | 16 pts
+                |-- C1 - Iluminación PA: PIA 10A | Cond. 1.5mm2 | Tubo 16mm | 25 pts
+                |-- C2 - Uso general PA: PIA 16A | Cond. 2.5mm2 | Tubo 20mm | 14 pts
+                |-- C5 - Baño/Cocina PB (B): PIA 16A | Cond. 2.5mm2 | Tubo 20mm | 4 pts
+                +-- C5 - Baños PA: PIA 16A | Cond. 2.5mm2 | Tubo 20mm | 3 pts
+       |
+       +-- [ID (Diferencial) 3 (Garaje + Buhardilla)] 40A/30mA
+                |-- C1 - Iluminación Garaje: PIA 10A | Cond. 1.5mm2 | Tubo 16mm | 4 pts
+                |-- C2 - Uso general Garaje: PIA 16A | Cond. 2.5mm2 | Tubo 20mm | 6 pts
+                |-- C1 - Iluminación Buhardilla: PIA 10A | Cond. 1.5mm2 | Tubo 16mm | 2 pts
+                |-- C2 - Uso gen. Dormitorio Buh.: PIA 16A | Cond. 2.5mm2 | Tubo 20mm | 3 pts
+                +-- C5 - Baño Buhardilla: PIA 16A | Cond. 2.5mm2 | Tubo 20mm | 1 pts
+============================================================

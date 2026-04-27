@@ -1,8 +1,8 @@
-# %% [markdown]
+# %% markdown
 # # Actividad 12: Derivación Individual (DI)
 # Sizing and constructive details for Individual Derivations.
 
-# %%
+# %% cases
 import math
 import matplotlib.pyplot as plt
 import matplotlib.patches as patches
