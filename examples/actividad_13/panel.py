@@ -33,11 +33,15 @@ p_labels = PANEL_LABELS[LANG]
 
 
 class Panel:
-    def __init__(self, name, power_w: float=None):
+    def __init__(self, name, power_w=None, is_main=True, feeder_len=0):
         self.name = name
         self.power_w = power_w
-        self.iga_amps = self._estimate_iga()
+        self.is_main = is_main
+        self.feeder_len = feeder_len
         self.rcd_groups = []
+        self.sub_panels = []
+        self.iga_amps = self._estimate_iga()
+
 
     def _estimate_iga(self):
         if not self.power_w: return "A Determinar"
@@ -46,64 +50,61 @@ class Panel:
             if std_iga >= current: return std_iga
         return 63
 
+    def add_sub_panel(self, sub):
+        self.sub_panels.append(sub)
+
     def add_rcd(self, rcd_group : RCDGroup):
         self.rcd_groups.append(rcd_group)
 
-    def generate_audit_report(self):
-        # 1. Aggregation Dictionary: { "C1": {"points": 0, "count": 0}, ... }
-        stats = {}
-        total_physical_pias = 0
-        effective_rcd_counts = []  # List of effective counts per RCD
+    def get_aggregated_stats(self):
+        """Recursively collects stats from this panel and all sub-panels."""
+        # Initial local stats
+        aggregate = {}
+        total_phys = 0
 
+        # 1. Process local circuits
         for rcd in self.rcd_groups:
-            # We use the smart counting logic for RCD compliance
-            types_in_rcd = [c.c_type for c in rcd.circuits]
-            eff_count = len([t for t in types_in_rcd if t != "C4"])
-            if "C4" in types_in_rcd: eff_count += 1
-            effective_rcd_counts.append(eff_count)
-
             for circ in rcd.circuits:
-                total_physical_pias += 1
-                if circ.c_type not in stats:
-                    stats[circ.c_type] = {"points": 0, "count": 0, "desc": circ.desc}
-                stats[circ.c_type]["points"] += circ.points
-                stats[circ.c_type]["count"] += 1
+                total_phys += 1
+                if circ.c_type not in aggregate:
+                    aggregate[circ.c_type] = {"points": 0, "count": 0, "desc": circ.desc}
+                aggregate[circ.c_type]["points"] += circ.points
+                aggregate[circ.c_type]["count"] += 1
 
-        # 2. Rendering the Breakdown Table
-        headers = {
-            "EN": ["Type", "Total Pts", "PIA Count", "Typical Use"],
-            "ES": ["Tipo", "Puntos Tot", "Num. PIAs", "Uso Típico"]
-        }[LANG]
+        # 2. Recurse into sub-panels
+        for sub in self.sub_panels:
+            sub_stats, sub_phys = sub.get_aggregated_stats()
+            total_phys += sub_phys
+            for c_type, data in sub_stats.items():
+                if c_type not in aggregate:
+                    aggregate[c_type] = data
+                else:
+                    aggregate[c_type]["points"] += data["points"]
+                    aggregate[c_type]["count"] += data["count"]
 
-        print(f"\n{'=' * 70}")
-        print(f" {self.name} - {labels['stats_title']} ")
-        print(f"{'=' * 70}")
-        print(f"{headers[0]:<6} | {headers[1]:<10} | {headers[2]:<10} | {headers[3]}")
-        print("-" * 70)
+        return aggregate, total_phys
 
-        # Sort by circuit number (C1, C2, C3...)
-        for c_type in sorted(stats.keys(), key=lambda x: int(''.join(filter(str.isdigit, x)) or 0)):
-            data = stats[c_type]
-            print(f"{c_type:<6} | {data['points']:<10} | {data['count']:<10} | {data['desc']}")
+    def generate_audit_report(self):
+        agg_stats, total_phys = self.get_aggregated_stats()
 
-        # 3. Final Compliance Summary
-        print("-" * 70)
-        summary_labels = {
-            "EN": [
-                f"Total Physical PIAs:  {total_physical_pias}",
-                f"Max RCD Load:         {max(effective_rcd_counts) if effective_rcd_counts else 0} / 5",
-                f"Design Power:         {self.power_w} W"
-            ],
-            "ES": [
-                f"Total PIAs Físicos:   {total_physical_pias}",
-                f"Carga Máx. en un ID:  {max(effective_rcd_counts) if effective_rcd_counts else 0} / 5",
-                f"Potencia de Diseño:   {self.power_w} W"
-            ]
-        }[LANG]
+        print(f"\n{'=' * 75}")
+        print(f" {p_labels['summary'] if self.is_main else p_labels['local']} {self.name} ")
+        print(f"{'=' * 75}")
 
-        for line in summary_labels:
-            print(line)
-        print(f"{'=' * 70}\n")
+        # Header for the breakdown
+        # [Using your logic for headers...]
+        print(f"{'Tipo':<6} | {'Puntos':<10} | {'PIAs':<6} | {'Uso Típico'}")
+        print("-" * 75)
+
+        for c_type in sorted(agg_stats.keys(), key=lambda x: int(''.join(filter(str.isdigit, x)) or 0)):
+            d = agg_stats[c_type]
+            print(f"{c_type:<6} | {d['points']:<10} | {d['count']:<6} | {d['desc']}")
+
+        print("-" * 75)
+        print(f"{p_labels['phys_pias']}: {total_phys}")
+        if self.power_w:
+            print(f"{p_labels['design_pwr']}: {self.power_w} W")
+        print(f"{'=' * 75}\n")
 
     def render(self):
 

@@ -204,7 +204,7 @@ def run_case_4():
 
 # %% EXE
 if __name__ == "__main__":
-    # run_case_1()
-    # run_case_2()
-    # run_case_3()
+    run_case_1()
+    run_case_2()
+    run_case_3()
     run_case_4()

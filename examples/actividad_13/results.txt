@@ -23,6 +23,22 @@
                 +-- C5 - Cocina tomas: PIA 16A | Cond. 2.5mm2 | Tubo 20mm | 3 pts
 ============================================================
 
+===========================================================================
+ RESUMEN GENERAL DE LA EDIFICACIÓN CASO PRÁCTICO 01 (Potencia Desconocida)
+===========================================================================
+Tipo   | Puntos     | PIAs   | Uso Típico
+---------------------------------------------------------------------------
+C1     | 45         | 1      | Iluminación
+C2     | 20         | 2      | Uso general 1
+C3     | 2          | 1      | Cocina/Horno
+C4     | 3          | 3      | Lavadora
+C5     | 6          | 2      | Baño
+C8     | 1          | 1      | Domótica
+---------------------------------------------------------------------------
+Total PIAs Físicos: 10
+===========================================================================
+
+
 ============================================================
 [CUADRO] CASO PRÁCTICO 02 (9.200W)
   |-- [IGA (Interruptor General)] 40A
@@ -40,6 +56,22 @@
                 |-- C5b - Baño/Cocina: PIA 16A | Cond. 2.5mm2 | Tubo 20mm | 4 pts (L=15m)
                 +-- C10 - Secadora: PIA 16A | Cond. 2.5mm2 | Tubo 20mm | 1 pts (L=18m)
 ============================================================
+
+===========================================================================
+ RESUMEN GENERAL DE LA EDIFICACIÓN CASO PRÁCTICO 02 (9.200W)
+===========================================================================
+Tipo   | Puntos     | PIAs   | Uso Típico
+---------------------------------------------------------------------------
+C1     | 46         | 1      | Iluminación
+C2     | 30         | 1      | Uso general
+C3     | 2          | 1      | Cocina y horno
+C4     | 3          | 1      | Lav/Lavav/Termo
+C5     | 8          | 1      | Baño/Cocina
+C10    | 1          | 1      | Secadora
+---------------------------------------------------------------------------
+Total PIAs Físicos: 6
+Potencia de Diseño: 9200 W
+===========================================================================
 
 ============================================================
 [CUADRO] CASO PRÁCTICO 03 (Potencia Desconocida - Elevada)
@@ -70,6 +102,21 @@ Since 40A is a standard commercial magnetothermal size, a 40A IGA is the perfect
                 +-- C4c - Termo: PIA 20A | Cond. 4.0mm2 | Tubo 20mm | 1 pts
 ============================================================
 
+===========================================================================
+ RESUMEN GENERAL DE LA EDIFICACIÓN CASO PRÁCTICO 03 (Potencia Desconocida - Elevada)
+===========================================================================
+Tipo   | Puntos     | PIAs   | Uso Típico
+---------------------------------------------------------------------------
+C1     | 30         | 2      | Iluminación 1
+C2     | 20         | 2      | Uso general 1
+C3     | 2          | 1      | Cocina/Horno
+C4     | 3          | 3      | Lavadora
+C5     | 6          | 2      | Baño
+C8     | 1          | 1      | Domótica
+---------------------------------------------------------------------------
+Total PIAs Físicos: 11
+===========================================================================
+
 [CUADRO] CASO PRÁCTICO 04 (Contrato 5.750W / Topología Elevada)
   |-- [IGA (Interruptor General)] 40A
        |
@@ -94,3 +141,18 @@ Since 40A is a standard commercial magnetothermal size, a 40A IGA is the perfect
                 |-- C2 - Uso gen. Dormitorio Buh.: PIA 16A | Cond. 2.5mm2 | Tubo 20mm | 3 pts
                 +-- C5 - Baño Buhardilla: PIA 16A | Cond. 2.5mm2 | Tubo 20mm | 1 pts
 ============================================================
+
+===========================================================================
+ RESUMEN GENERAL DE LA EDIFICACIÓN CASO PRÁCTICO 04 (Contrato 5.750W / Topología Elevada)
+===========================================================================
+Tipo   | Puntos     | PIAs   | Uso Típico
+---------------------------------------------------------------------------
+C1     | 64         | 5      | Iluminación PB (A)
+C2     | 39         | 4      | Uso general PB
+C3     | 1          | 1      | Cocina y horno
+C5     | 12         | 4      | Baño/Cocina PB (A)
+C10    | 1          | 1      | Secadora
+---------------------------------------------------------------------------
+Total PIAs Físicos: 15
+Potencia de Diseño: 5750 W
+===========================================================================

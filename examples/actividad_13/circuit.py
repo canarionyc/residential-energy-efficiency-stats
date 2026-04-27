@@ -1,4 +1,4 @@
-from constants import REBT_CATALOG, STANDARD_SECTIONS, LANG, labels
+from constants import REBT_CATALOG, STANDARD_SECTIONS, TUBE_DIAMETERS, LANG, labels
 
 class Circuit:
     def __init__(self, c_type, desc, points: int, length_m=0):
