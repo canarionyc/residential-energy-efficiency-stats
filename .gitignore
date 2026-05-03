@@ -551,3 +551,8 @@ TSWLatexianTemp*
 #*Notes.bib
 *.txt
 *.slx
+*.txt#
+*.me$
+*.jpg
+*.mep
+*.bibgen
