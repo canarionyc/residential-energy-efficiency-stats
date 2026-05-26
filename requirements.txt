@@ -8,3 +8,5 @@ duckdb
 pandas
 graphviz
 pyprojroot
+ifcopenshell
+pyqt6-sip

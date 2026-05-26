@@ -14,7 +14,7 @@ import pandas as pd
 from sklearn.linear_model import LinearRegression
 from sklearn.metrics import r2_score
 
-from source.core_modules import ureg
+from source.core import ureg
 
 
 class SpainEUBuildingProjections:

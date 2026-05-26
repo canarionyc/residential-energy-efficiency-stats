@@ -1,0 +1,73 @@
+{
+    "asset" : {
+        "version" : 1
+    },
+    "tipo_proyecto" : "0",
+    "tipo_ruido_exterior" : "0",
+    "indice_ruido_dia_Ld" : 60,
+    "recintos" : [
+        {
+            "guid" : "3SMq9eKMDADuZJ9d7iLK75",
+            "reference" : "Garaje",
+            "tipo_recinto" : "13"
+        },
+        {
+            "guid" : "3K$FZ2spPCxPGt7UfQVHAf",
+            "reference" : "Acceso",
+            "tipo_recinto" : "7"
+        },
+        {
+            "guid" : "31vY1WUO16$vFPVBHZLfGj",
+            "reference" : "Comedor",
+            "tipo_recinto" : "6",
+            "D2mnTAtr" : 34.0
+        },
+        {
+            "guid" : "0Xe1irv5D8UPD6FQcSclZ6",
+            "reference" : "Cocina",
+            "tipo_recinto" : "7"
+        },
+        {
+            "guid" : "3tWV7455zAffy16kG3pwQ7",
+            "reference" : "Baño PB",
+            "tipo_recinto" : "7"
+        },
+        {
+            "guid" : "23gSKB4Qv9F9NC$itXRFXT",
+            "reference" : "Trastero",
+            "tipo_recinto" : "18"
+        },
+        {
+            "guid" : "2$gfUqlCjDTREt1gqWcg$n",
+            "reference" : "Dormitorio",
+            "tipo_recinto" : "0",
+            "D2mnTAtr" : 36.0
+        },
+        {
+            "guid" : "3OaVJJcR16QQHsU3Ryvm5t",
+            "reference" : "Dormitorio2",
+            "tipo_recinto" : "0",
+            "D2mnTAtr" : 35.0
+        },
+        {
+            "guid" : "3gpqH34WD9Gu1ym2DK$xC5",
+            "reference" : "Dormitorio3",
+            "tipo_recinto" : "0",
+            "D2mnTAtr" : 32.0
+        },
+        {
+            "guid" : "0pT4Alqin5puxBfvCnq0vn",
+            "reference" : "Baño P1",
+            "tipo_recinto" : "7"
+        },
+        {
+            "guid" : "0F6cbgm6PAtPBvq8LkKNTv",
+            "reference" : "Distribuidor",
+            "tipo_recinto" : "7"
+        },
+        {
+            "reference" : "",
+            "tipo_recinto" : "15"
+        }
+    ]
+}

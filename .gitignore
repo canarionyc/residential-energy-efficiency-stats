@@ -556,3 +556,14 @@ TSWLatexianTemp*
 *.jpg
 *.mep
 *.bibgen
+*.blend
+*.blend1
+*.dwg
+*.svg
+*.pln
+*.jsedg
+*.bscollab
+*.bsdep
+*.bsplcmnt
+*.dwl
+*.dwl2
