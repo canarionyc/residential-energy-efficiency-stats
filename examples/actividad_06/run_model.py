@@ -10,7 +10,7 @@ if os.path.basename(os.getcwd()) == 'actividad_06':
 
 #%% Ejecutar validación
 
-from validar_datos import cargar_y_validar_datos
+from actividad6_data import cargar_y_validar_datos
 
 datos_actividad_6 = cargar_y_validar_datos(ruta_json=r'data.json')
 pprint(datos_actividad_6.model_dump_json())

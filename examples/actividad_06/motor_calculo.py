@@ -5,7 +5,7 @@ from pprint import pprint
 import duckdb
 from pydantic import BaseModel
 from typing import Dict, Any
-
+from actividad6_data import Actividad6Data
 
 # ==========================================
 # 1. CLASE DE RESULTADO TRAZABLE (Audit Trail)
@@ -19,7 +19,10 @@ class MotorCalculoLGA:
     def __init__(self, db_path: str):
         self.db_path = db_path
 
-    def calcular_lga(self, datos: dict) -> Dict[str, TraceableResult]:
+    def calcular_lga(self, datos: dict|Actividad6Data) -> Dict[str, TraceableResult]:
+        # Accept either a plain dict or a Pydantic model (Actividad6Data)
+        if hasattr(datos, 'model_dump'):
+            datos = datos.model_dump()
         p = datos['proyecto']
         l = datos['lga']
         resultados = {}
@@ -79,7 +82,7 @@ class MotorCalculoLGA:
             normativa="UNE-HD 60364-5-52",
             trazabilidad=f"Búsqueda DuckDB: Sistema {l['sistema_instalacion']}, Cobre, Seccion >= {seccion_teorica:.2f}mm2"
         )
-
+        print(f"Seccion de fase adoptada: {resultados['seccion_fase_adoptada']}" )
         # --- D. Criterio 3: Corrección por Temperatura (Criterio Térmico) ---
         # Si T > 40ºC, el cable soporta menos amperios.
         # (Idealmente esto también saldría de DuckDB, aquí usamos un factor simplificado para el ejemplo)
@@ -97,7 +100,7 @@ class MotorCalculoLGA:
             valor=round(iz_real, 2), unidad="A", criterio="Corrección Térmica", normativa="UNE-HD 60364-5-52",
             trazabilidad=f"Iz tabulada ({iz_tabulada}A) * Factor Temp a {l['temperatura_ambiente_C']}C ({factor_temp})"
         )
-
+        print(f"Intensidad real: {resultados['intensidad_admisible_real_Iz']}")
         # --- E. Selección de Fusibles (CGP) ---
         # In debe cumplir: Ib <= In <= Iz_real
         # Buscamos en DuckDB el calibre estándar más cercano
@@ -106,7 +109,7 @@ class MotorCalculoLGA:
                 SELECT calibre_A FROM calibres_estandar 
                 WHERE calibre_A >= ? AND calibre_A <= ?
                 ORDER BY calibre_A ASC LIMIT 1
-            """
+            """; print(query_fusible)
             # Asumiendo que tienes una tabla de calibres, simulamos el resultado:
             # fila_fusible = db.execute(query_fusible, [ib, iz_real]).fetchone()
             calibres_simulados = [160, 250, 315, 400]
@@ -116,7 +119,8 @@ class MotorCalculoLGA:
             valor=in_fusible, unidad="A", criterio="Protección de Sobrecarga", normativa="ITC-BT-14 / UNELCO",
             trazabilidad=f"Búsqueda del primer calibre estándar In tal que: Ib({ib:.1f}A) <= In <= Iz({iz_real:.1f}A)"
         )
-
+        print(f"Calibre fusible In: {resultados['calibre_fusible_In']}")
+        pprint(resultados)
         return resultados
 
 if __name__ == "__main__":

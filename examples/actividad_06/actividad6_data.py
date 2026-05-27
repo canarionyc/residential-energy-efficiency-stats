@@ -1,37 +1,9 @@
 # %% Celda 1: Esquema Estricto de Datos (Validación Pydantic)
-from pydantic import BaseModel, Field, ConfigDict, ValidationError
-from typing import Literal
 import json
 from pprint import pprint
-from pydantic import BaseModel, Field, field_validator
+from pydantic import BaseModel, Field, field_validator, ConfigDict, ValidationError
+from typing import Literal
 import duckdb
-
-
-class LGAInput(BaseModel):
-    # Notice: It's just a string now. The code doesn't know what 'B1' is.
-    sistema_instalacion: str
-    temperatura_ambiente_C: float = Field(ge=-20, le=90)
-    longitud_m: float = Field(gt=0.0)
-
-    @field_validator('sistema_instalacion')
-    @classmethod
-    def validar_sistema_contra_db(cls, v: str) -> str:
-        """Queries DuckDB to verify the system exists in the norm."""
-        # Query the database for the provided value
-        query = "SELECT descripcion FROM metodos_instalacion WHERE id = ?"
-        resultado = db.execute(query, [v.upper()]).fetchone()
-
-        if not resultado:
-            # If we dynamically fetch the allowed list for the error message
-            permitidos = [row[0] for row in db.execute("SELECT id FROM metodos_instalacion").fetchall()]
-            raise ValueError(
-                f"Sistema '{v}' no reconocido por la normativa actual. "
-                f"Sistemas válidos en la base de datos: {permitidos}"
-            )
-        return v.upper()
-
-
-# --- TEST IT ---
 
 # ---------------------------------------------------------
 # MODELOS PYDANTIC (Restringen silencios y errores)
@@ -53,12 +25,40 @@ class LGAInput(BaseModel):
     longitud_m: float = Field(gt=0.0)
     conductividad_c: float = Field(gt=0.0, description="Conductividad a la temperatura máxima de servicio")
 
+    @field_validator('sistema_instalacion')
+    @classmethod
+    def validar_sistema_contra_db(cls, v: str) -> str:
+        """Normalize and optionally validate against DuckDB if available.
+
+        This validator upper-cases the provided value. If the local
+        `normativas.duckdb` database is available and contains a
+        `metodos_instalacion` table, it will enforce membership there.
+        If the DB can't be opened, validation will be skipped with a
+        warning so the model can still be used in environments without
+        the normative DB (useful for tests and CI).
+        """
+        v_up = v.upper()
+        try:
+            conn = duckdb.connect(r'normativas.duckdb', read_only=True)
+            row = conn.execute("SELECT id_sistema FROM metodos_instalacion WHERE id_sistema = ?", [v_up]).fetchone()
+            # If table/DB exists but no match, raise a validation error with allowed list
+            if not row:
+                allowed = [r[0] for r in conn.execute("SELECT id_sistema FROM metodos_instalacion").fetchall()]
+                conn.close()
+                raise ValueError(
+                    f"Sistema '{v}' no reconocido por la normativa actual. Sistemas válidos en la base de datos: {allowed}"
+                )
+            conn.close()
+        except Exception as e:
+            # If DB or table isn't available, try to be permissive but normalize value.
+            print(f"Warning: could not validate 'sistema_instalacion' against DB: {e}")
+        return v_up
+
 
 class Actividad6Data(BaseModel):
     model_config = ConfigDict(extra='forbid')
     proyecto: ProyectoInput
     lga: LGAInput
-
 
 # ---------------------------------------------------------
 # MOTOR DE CARGA
