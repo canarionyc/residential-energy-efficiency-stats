@@ -2,7 +2,7 @@
 from pydantic import BaseModel, Field, ConfigDict, ValidationError
 from typing import Literal
 import json
-
+from pprint import pprint
 from pydantic import BaseModel, Field, field_validator
 import duckdb
 
@@ -32,18 +32,7 @@ class LGAInput(BaseModel):
 
 
 # --- TEST IT ---
-#%% 1. Valid Input
-db = duckdb.connect(r'normas.db', read_only=True)
-datos_validos = {"sistema_instalacion": "B1", "temperatura_ambiente_C": 45, "longitud_m": 40}
-lga = LGAInput(**datos_validos)
-print(f"✅ Validated: {lga.sistema_instalacion}")
 
-# 2. Invalid Input (Will trigger a dynamic error)
-try:
-    datos_invalidos = {"sistema_instalacion": "Z9", "temperatura_ambiente_C": 45, "longitud_m": 40}
-    LGAInput(**datos_invalidos)
-except ValueError as e:
-    print(f"❌ Validation Blocked:\n{e}")
 # ---------------------------------------------------------
 # MODELOS PYDANTIC (Restringen silencios y errores)
 # ---------------------------------------------------------
@@ -79,7 +68,7 @@ def cargar_y_validar_datos(ruta_json: str) -> Actividad6Data:
     try:
         with open(ruta_json, 'r', encoding='utf-8') as f:
             datos_crudos = json.load(f)
-
+            pprint(datos_crudos)
         # Pydantic valida los tipos, rangos y strings permitidos en este paso
         datos_validados = Actividad6Data(**datos_crudos)
         print("✅ SUCCESS: Datos cargados y validados. Ninguna ambigüedad detectada.")
@@ -92,3 +81,17 @@ def cargar_y_validar_datos(ruta_json: str) -> Actividad6Data:
         print("❌ ERROR DE VALIDACIÓN: El archivo data.json no cumple la especificación.")
         print(e.json(indent=2))
         raise
+
+if __name__ == "__main__":
+    # %% 1. Valid Input
+    db = duckdb.connect(r'normativas.db', read_only=True)
+    datos_validos = {"sistema_instalacion": "B1", "temperatura_ambiente_C": 45, "longitud_m": 40}
+    lga = LGAInput(**datos_validos)
+    print(f"✅ Validated: {lga.sistema_instalacion}")
+
+    # 2. Invalid Input (Will trigger a dynamic error)
+    try:
+        datos_invalidos = {"sistema_instalacion": "Z9", "temperatura_ambiente_C": 45, "longitud_m": 40}
+        LGAInput(**datos_invalidos)
+    except ValueError as e:
+        print(f"❌ Validation Blocked:\n{e}")
