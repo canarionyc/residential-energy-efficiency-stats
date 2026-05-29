@@ -1,4 +1,5 @@
 #%% setup
+from tabulate import tabulate
 from examples.actividad_09.nodeRepository import location_node, type_node, igm_node
 
 #%% Data extracted from ACTIVIDAD_09_CC_enunciado.pdf
@@ -7,7 +8,9 @@ cases = [
     {"id": "CASE 02", "floors": 4, "load_kw": 75.0, "total_meters": 9},
     {"id": "CASE 03", "floors": 9, "load_kw": 145.15, "total_meters": 23}
 ]
+print(tabulate(cases, headers="keys", tablefmt="outline"))
 
+#%% Run
 for case in cases:
     print(f"--- Results for {case['id']} ---")
 

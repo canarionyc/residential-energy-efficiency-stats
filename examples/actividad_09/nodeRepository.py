@@ -8,13 +8,9 @@ from examples.actividad_09.rulebook import RuleNode
 #     on_true="IGM: 160A"
 # )
 
-
-
-
 # %% Define independent nodes (The 'Machine' parts)
 igm_node = RuleNode("¿Carga < 90kW?", lambda c: c['load_kw'] < 90, "IGM: 160A", "IGM: 250A")
 type_node = RuleNode("¿Contadores > 16?", lambda c: c['total_meters'] > 16, "Tipo: Local", "Tipo: Armario")
-
 
 # # Node for installation type based on number of meters
 # type_node = RuleNode(
